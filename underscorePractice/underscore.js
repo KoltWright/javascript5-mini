@@ -62,7 +62,11 @@ var customers = [{
 
 // Create and array of all email addresses
 // first without using underscore's pluck, then with it.
+var emailArray = customers.map((obj) => {
+  return obj.email
+})
 
+emailArray = _.pluck(customers, "email");
 
 
 
@@ -71,22 +75,34 @@ var inviteList1 = ['Ed', 'Fanny', 'Mildred', 'Alice', 'James'];
 var inviteList2 = ['Jake', 'Mildred', 'Jimmy', 'Ed', 'Franklin']
 
 
-  // Uh oh! We are having a party and two invite lists were created. 
+  // Uh oh! We are having a party and two invite lists were created.
   // Create one list of the people we want at the party (no duplicates).
   // Then remove all duplicates using _.union().
 
+var inviteLists = inviteList1.concat(inviteList2);
+
+var combdList = inviteLists.filter((val, ind) => {
+  return inviteLists.indexOf(val) === ind;
+})
+
+combdList = _.union(inviteList1, inviteList2);
 
 
-
-
-
-
-  var friendsOfJim = ['Tom', 'Carina','Rex', 'Jane', 'Greg', 'Nancy', 'Alison', 'Goose'];
-  var friendsOfBetty = ['Burt', 'Dave', 'Tina', 'Biggie', 'Rex', 'Carina', 'Victoria', 'Tom', 'Nancy'];
+var friendsOfJim = ['Tom', 'Carina','Rex', 'Jane', 'Greg', 'Nancy', 'Alison', 'Goose'];
+var friendsOfBetty = ['Burt', 'Dave', 'Tina', 'Biggie', 'Rex', 'Carina', 'Victoria', 'Tom', 'Nancy'];
 
 
   // Jim and Betty are having a party, but they only want to invite mutual friends. Create and array of mutual friends. First without using underscore, then using underscores _.intersection().
 
+var mutualFriends = []
+
+for (i = 0; i < friendsOfJim.length; i++) {
+  if (friendsOfBetty.indexOf(friendsOfJim[i]) !== -1) {
+    mutualFriends.push(friendsOfJim[i]);
+  }
+}
+
+mutualFriends = _.intersection(friendsOfJim, friendsOfBetty);
 
 var purchases = [{
     company: 'Dunder Mifflin', order: 1000
@@ -110,6 +126,24 @@ var purchases = [{
 // First, group the purchases by company without underscore
 // then do it again using _.groupBy()
 
+var companies = purchases.map((val) => {
+  return val.company;
+});
 
+companies = companies.filter((val, ind) => {
+  return companies.indexOf(val) === ind;
+})
 
+grouped = {}
+for (i = 0 ; i < companies.length; i++) {
+  grouped[companies[i]] = [];
+  for (j = 0; j < purchases.length; j++) {
+    if (purchases[j].company === companies[i]) {
+      grouped[companies[i]].push(purchases[j]);
+    }
+  }
+}
 
+var grouped = _.groupBy(purchases, (item) => {
+  return item.company
+});
